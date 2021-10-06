@@ -47,7 +47,7 @@ IMAGE_TAGS=
 
 # A "canary" image gets built if the current commit is the head of the remote "master" branch.
 # That branch does not exist when building some other branch in TravisCI.
-IMAGE_TAGS+=$(shell if [ "$$(git rev-list -n1 HEAD)" = "$$(git rev-list -n1 origin/master 2>/dev/null)" ]; then echo "canary"; fi)
+IMAGE_TAGS+=$(shell if [ "$$(git rev-list -n1 HEAD)" = "$$(git rev-list -n1 marcos/master 2>/dev/null)" ]; then echo "canary"; fi)
 
 # A "X.Y.Z-canary" image gets built if the current commit is the head of a "origin/release-X.Y.Z" branch.
 # The actual suffix does not matter, only the "release-" prefix is checked.
@@ -58,7 +58,7 @@ IMAGE_TAGS+=$(shell git branch -r --points-at=HEAD | grep 'origin/release-' | gr
 IMAGE_TAGS+=$(shell tagged="$$(git describe --tags --match='v*' --abbrev=0)"; if [ "$$tagged" ] && [ "$$(git rev-list -n1 HEAD)" = "$$(git rev-list -n1 $$tagged)" ]; then echo $$tagged; fi)
 
 # Images are named after the command contained in them.
-IMAGE_NAME=$(REGISTRY_NAME)/$*
+IMAGE_NAME=$(REGISTRY_NAME)/k8s-csi-hostpathplugin
 
 ifdef V
 # Adding "-alsologtostderr" assumes that all test binaries contain glog. This is not guaranteed.
