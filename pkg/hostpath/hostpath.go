@@ -206,6 +206,7 @@ func (hp *hostPath) createVolume(volID, name string, cap int64, volAccessType st
 	default:
 		return nil, fmt.Errorf("unsupported access type %v", volAccessType)
 	}
+	os.Chmod(path, 0777)
 
 	volume := state.Volume{
 		VolID:         volID,
